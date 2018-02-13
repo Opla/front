@@ -1,14 +1,18 @@
 import React from "react";
-import { Card, CardTitle, CardText, CardActions } from "react-mdl";
+import { Card, CardText, CardActions } from "react-material-cw";
 
 const Loading = () => (
-  <Card shadow={0} style={{ width: "512px", margin: "auto" }}>
-    <CardTitle>Processing</CardTitle>
+  <Card
+    style={{ width: "512px", margin: "auto" }}
+    title="Processing"
+  >
     <CardText>
-              Please wait ...
+      Please wait ...
     </CardText>
+
     <CardActions />
-  </Card>);
+  </Card>
+);
 
 Loading.propTypes = {
 };

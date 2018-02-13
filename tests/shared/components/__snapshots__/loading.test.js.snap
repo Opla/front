@@ -1,0 +1,33 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Loading renders correctly 1`] = `
+<div
+  className="mdc-card"
+  style={
+    Object {
+      "margin": "auto",
+      "width": "512px",
+    }
+  }
+>
+  <section
+    className="mdc-card__primary"
+  >
+    
+    <h1
+      className="mdc-card__title"
+    >
+      Processing
+    </h1>
+    
+  </section>
+  <section
+    className="mdc-card__supporting-text"
+  >
+    Please wait ...
+  </section>
+  <section
+    className="mdc-card__actions"
+  />
+</div>
+`;
