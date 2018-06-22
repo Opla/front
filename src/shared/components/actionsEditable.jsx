@@ -39,10 +39,38 @@ class ActionsEditable extends Component {
     return actionText; // .trim();
   }
 
+  static insertItemsSpacer(items) {
+    return items.reduce((newItems, item, index, array) => {
+      if (
+        item.type !== "text" &&
+        (!array[index - 1] || array[index - 1].type !== "text")
+      ) {
+        newItems.push({ text: "", type: "text" });
+      }
+      newItems.push(item);
+      // add at end
+      if (index === array.length - 1 && item.type !== "text") {
+        newItems.push({ text: "", type: "text" });
+      }
+      return newItems;
+    }, []);
+  }
+
+  static removeAllItemsSpacer(items) {
+    return items.reduce(
+      (newItems, item) =>
+        item.type === "text" && item.text === ""
+          ? newItems
+          : newItems.concat([item]),
+      [],
+    );
+  }
+
   constructor(props) {
     super(props);
     const { content, selectedItem, caretPosition } = this.props;
-    const items = ActionsTools.parse(content);
+    let items = ActionsTools.parse(content);
+    items = ActionsEditable.insertItemsSpacer(items);
     this.state = {
       content,
       items,
@@ -58,7 +86,8 @@ class ActionsEditable extends Component {
   componentWillReceiveProps(nextProps) {
     const { content, caretPosition } = nextProps;
     if (content !== this.state.content) {
-      const items = ActionsTools.parse(content);
+      let items = ActionsTools.parse(content);
+      items = ActionsEditable.insertItemsSpacer(items);
       this.setState({
         content,
         items,
@@ -145,7 +174,8 @@ class ActionsEditable extends Component {
     const selectedItem = -1;
     const caretPosition = 0;
     const content = "";
-    const items = ActionsTools.parse(content);
+    let items = ActionsTools.parse(content);
+    items = ActionsEditable.insertItemsSpacer(items);
     this.setState(() => ({
       selectedItem,
       caretPosition,
@@ -242,23 +272,36 @@ class ActionsEditable extends Component {
     // console.log("items", items);
 
     this.updateItemsAndContent(items);
+    // TODO compute new position with spacer
     this.changeFocus(position);
   }
 
   // public method
   deleteItem(position = this.state.selectedItem) {
     const { items } = this.state;
+    // if item is a text, clear it
+    if (items[position] && items[position].type === "text") {
+      this.handleEntityChange(position, undefined, "");
+      this.changeFocus(position);
+      return;
+    }
+
     // if focus on ae_end and last action is a text, remove text
     if (position === -2 && items[items.length - 1].type === "text") {
       // recursive call on last item position
       this.deleteItem(items.lenght - 1);
       return;
     }
-    // console.log("delete item ", deletePosition);
+
     if (position > -1 && position < items.length) {
+      const itemsRemovedCount = 1;
       items.splice(position, 1);
       this.updateItemsAndContent(items);
-      const itemToFocus = position > 0 ? position - 1 : position; // move focus to previous item
+      // move focus to previous item
+      const itemToFocus =
+        position - itemsRemovedCount >= 0
+          ? position - itemsRemovedCount
+          : position;
       this.changeFocus(itemToFocus);
     }
   }
