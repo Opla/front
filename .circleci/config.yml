@@ -16,10 +16,10 @@ __steps:
         COMMIT_SHA=$CIRCLE_SHA1 myke deploy
   - run: &notify0
       when: on_success
-      command: TEST_RESULT=0 DOMAIN="$K8S_NAMESPACE.$DOMAIN" myke front/_notify
+      command: TEST_RESULT=0 DOMAIN="$K8S_NAMESPACE.$DOMAIN" myke front/_circle_notify
   - run: &notify1
       when: on_fail
-      command: TEST_RESULT=1 DOMAIN="$K8S_NAMESPACE.$DOMAIN" myke front/_notify
+      command: TEST_RESULT=1 DOMAIN="$K8S_NAMESPACE.$DOMAIN" myke front/_circle_notify
   - run: &initsubmodules git submodule sync && git submodule update --init
 
 version: 2
