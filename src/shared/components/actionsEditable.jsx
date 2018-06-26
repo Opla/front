@@ -287,6 +287,7 @@ class ActionsEditable extends Component {
   // public method
   insertItem(item, position) {
     const { items } = this.state;
+    let indexToFocus = 0;
     // console.log("insert item: ", item, position);
     if (position == null) {
       const newIndex =
@@ -312,17 +313,41 @@ class ActionsEditable extends Component {
     }
 
     if (position <= items.length) {
-      items.splice(position, 0, item);
+      indexToFocus = position;
+      if (
+        items[position] &&
+        items[position].type === "text" &&
+        item.type === "text"
+      ) {
+        items[position].text += item.text;
+      } else if (
+        items[position - 1] &&
+        items[position - 1].type === "text" &&
+        item.type === "text"
+      ) {
+        items[position - 1].text += item.text;
+        // change focus to previous position
+        indexToFocus = position - 1;
+      } else if (
+        items[position + 1] &&
+        items[position + 1].type === "text" &&
+        item.type === "text"
+      ) {
+        items[position + 1].text = item.text + items[position + 1];
+      } else {
+        items.splice(position, 0, item);
+      }
     }
     // console.log("items", items);
     const itemsWithSpacer = ActionsEditable.insertItemsSpacer(items, position);
+    indexToFocus += itemsWithSpacer.offset;
     // console.log("itemswithspacer", itemsWithSpacer);
 
     // maintain coherent state
     this.setState({ items: [].concat(itemsWithSpacer.items) });
     this.updateItemsAndContent(itemsWithSpacer.items);
 
-    this.changeFocus(position + itemsWithSpacer.offset);
+    this.changeFocus(indexToFocus);
   }
 
   // public method

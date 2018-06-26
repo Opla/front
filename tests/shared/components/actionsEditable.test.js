@@ -374,6 +374,45 @@ describe("components/actionsEditable", () => {
     expect(onChangeSpy).toHaveBeenCalledWith("* foo **");
   });
 
+  it("should concat when insert a text item next to another", () => {
+    const onChangeSpy = jest.fn();
+    const wrapper = shallow(
+      <ActionsEditable
+        {...defaultProps}
+        content="* foo *"
+        onChange={onChangeSpy}
+      />,
+    );
+
+    expect(wrapper.state("items")).toHaveLength(5);
+    testActionIdAndContent(wrapper, "ae_0", 1, "");
+    testActionIdAndContent(wrapper, "ae_1", 1, "*");
+    testActionIdAndContent(wrapper, "ae_2", 1, " foo ");
+    testActionIdAndContent(wrapper, "ae_3", 1, "*");
+    testActionIdAndContent(wrapper, "ae_4", 1, "");
+    testActionIdAndContent(wrapper, "ae_5", 0);
+
+    wrapper.setState({ selectedItem: 1 });
+    wrapper.instance().insertItem({ text: "bar", type: "text" });
+    wrapper.update();
+    expect(wrapper.state("items")).toEqual([
+      { type: "text", text: "" },
+      { type: "any", text: "*" },
+      { type: "text", text: " foo bar" },
+      { type: "any", text: "*" },
+      { type: "text", text: "" },
+    ]);
+    expect(onChangeSpy).toHaveBeenCalledWith("* foo bar*");
+    testActionIdAndContent(wrapper, "ae_0", 1, "");
+    testActionIdAndContent(wrapper, "ae_1", 1, "*");
+    testActionIdAndContent(wrapper, "ae_2", 1, " foo bar");
+    testActionIdAndContent(wrapper, "ae_3", 1, "*");
+    testActionIdAndContent(wrapper, "ae_4", 1, "");
+    testActionIdAndContent(wrapper, "ae_5", 0);
+
+    wrapper.instance().insertItem({ text: "bar", type: "text" });
+  });
+
   it("should delete an item", () => {
     const onChangeSpy = jest.fn();
     const wrapper = shallow(
