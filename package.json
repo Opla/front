@@ -1,0 +1,22 @@
+{
+  "name": "front-helm-repository",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "yaml-validator index.yaml"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/opla/front.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/opla/front/issues"
+  },
+  "homepage": "https://github.com/opla/front#readme",
+  "devDependencies": {
+    "yaml-validator": "^1.3.0"
+  }
+}
