@@ -145,6 +145,78 @@ describe("components/actionsEditable", () => {
     });
   });
 
+  describe("get items length", () => {
+    it("should get array size with spacers", () => {
+      expect(
+        ActionsEditable.getLengthWithSpacer([
+          { type: "any", text: "*" },
+          { type: "any", text: "*" },
+        ]),
+      ).toEqual(5);
+      expect(
+        ActionsEditable.getLengthWithSpacer([
+          { type: "any", text: "*" },
+          { type: "text", text: "hello" },
+          { type: "any", text: "*" },
+        ]),
+      ).toEqual(5);
+      expect(
+        ActionsEditable.getLengthWithSpacer([
+          { type: "any", text: "*" },
+          { type: "text", text: "hello" },
+          { type: "any", text: "*" },
+        ]),
+      ).toEqual(5);
+
+      // with spacers already in place
+      expect(
+        ActionsEditable.getLengthWithSpacer([
+          { type: "text", text: "" },
+          { type: "any", text: "*" },
+          { type: "text", text: "hello" },
+          { type: "any", text: "*" },
+          { type: "text", text: "" },
+        ]),
+      ).toEqual(5);
+
+      // with spacers partialy in place
+      expect(
+        ActionsEditable.getLengthWithSpacer([
+          { type: "text", text: "" },
+          { type: "any", text: "*" },
+          { type: "text", text: "hello" },
+          { type: "any", text: "*" },
+        ]),
+      ).toEqual(5);
+    });
+
+    it("should get items size without spacer", () => {
+      expect(
+        ActionsEditable.getLengthWithoutSpacer([
+          { type: "text", text: "" },
+          { type: "any", text: "*" },
+          { type: "text", text: "hello" },
+          { type: "any", text: "*" },
+          { type: "text", text: "" },
+        ]),
+      ).toEqual(3);
+      expect(
+        ActionsEditable.getLengthWithoutSpacer([
+          { type: "text", text: "" },
+          { type: "any", text: "*" },
+          { type: "text", text: "hello" },
+        ]),
+      ).toEqual(2);
+      expect(
+        ActionsEditable.getLengthWithoutSpacer([
+          { type: "text", text: "" },
+          { type: "any", text: "*" },
+          { type: "text", text: "" },
+        ]),
+      ).toEqual(1);
+    });
+  });
+
   describe("InsertItemsSpacer()", () => {
     it("should insert text item arround non text items", () => {
       const items = [{ type: "any", text: "*" }, { type: "any", text: "*" }];
@@ -192,17 +264,67 @@ describe("components/actionsEditable", () => {
 
     wrapper.instance().insertItem({ text: "*", type: "any" }, 1);
     wrapper.update();
+    expect(wrapper.state("items")).toEqual([
+      { type: "text", text: "" },
+      { type: "any", text: "*" },
+      { type: "text", text: "" },
+      { type: "any", text: "*" },
+      { type: "text", text: " foo " },
+      { type: "any", text: "*" },
+      { type: "text", text: "" },
+    ]);
     expect(onChangeSpy).toHaveBeenCalledWith("** foo *");
+    testActionIdAndContent(wrapper, "ae_0", 1, "");
+    testActionIdAndContent(wrapper, "ae_1", 1, "*");
+    testActionIdAndContent(wrapper, "ae_2", 1, "");
+    testActionIdAndContent(wrapper, "ae_3", 1, "*");
+    testActionIdAndContent(wrapper, "ae_4", 1, " foo ");
+    testActionIdAndContent(wrapper, "ae_5", 1, "*");
+    testActionIdAndContent(wrapper, "ae_6", 1, "");
+    testActionIdAndContent(wrapper, "ae_7", 0);
   });
 
   it("should request to move focus after item inserted", () => {
     const wrapper = shallow(<ActionsEditable {...defaultProps} />);
     expect(wrapper.state("items")).toHaveLength(5);
+    // result
+    // _*foo*_
+    // 01 2 34
 
     wrapper.instance().insertItem({ text: "*", type: "any" }, 2);
     wrapper.update();
-    expect(wrapper.state("itemToFocus")).toEqual(2);
+    expect(wrapper.state("items")).toEqual([
+      { type: "text", text: "" },
+      { type: "any", text: "*" },
+      { type: "text", text: "" },
+      { type: "any", text: "*" },
+      { type: "text", text: " foo " },
+      { type: "any", text: "*" },
+      { type: "text", text: "" },
+    ]);
+    expect(wrapper.state("itemToFocus")).toEqual(3);
+    // result
+    // _*_*foo*_
+    // 0123 4 56
+    //    |
+
     wrapper.update();
+    wrapper.instance().insertItem({ text: "*", type: "any" }, 5);
+    wrapper.update();
+    expect(wrapper.state("itemToFocus")).toEqual(5);
+    // result
+    // _*_*foo*_*_
+    // 0123 4 5678
+    //        |
+
+    wrapper.update();
+    wrapper.instance().insertItem({ text: "*", type: "any" }, 8);
+    wrapper.update();
+    expect(wrapper.state("itemToFocus")).toEqual(9);
+    // result
+    // _*_*foo*_*_*_
+    // 0123 4 5678910
+    //            |
   });
 
   it("should insert an item at beginning", () => {

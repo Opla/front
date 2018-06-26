@@ -39,21 +39,38 @@ class ActionsEditable extends Component {
     return actionText; // .trim();
   }
 
-  static insertItemsSpacer(items) {
-    return items.reduce((newItems, item, index, array) => {
+  /**
+   * return if refIndex defined
+   * {
+   *   items: Array of item
+   *   offset: Offset of refIndex move
+   * }
+   */
+  static insertItemsSpacer(items, refIndex) {
+    let offset = 0;
+    const itemsWithSpacer = items.reduce((newItems, item, index, array) => {
       if (
         item.type !== "text" &&
         (!array[index - 1] || array[index - 1].type !== "text")
       ) {
         newItems.push({ text: "", type: "text" });
+        // increase offset if needed
+        if (refIndex !== undefined && index <= refIndex) {
+          offset += 1;
+        }
       }
-      newItems.push(item);
+      newItems.push({ ...item });
       // add at end
       if (index === array.length - 1 && item.type !== "text") {
         newItems.push({ text: "", type: "text" });
+        // pushSpacer(newItems, index, refIndex, offset);
       }
       return newItems;
     }, []);
+
+    return refIndex !== undefined
+      ? { items: itemsWithSpacer, offset }
+      : itemsWithSpacer;
   }
 
   static removeAllItemsSpacer(items) {
@@ -63,6 +80,32 @@ class ActionsEditable extends Component {
           ? newItems
           : newItems.concat([item]),
       [],
+    );
+  }
+
+  static getLengthWithSpacer(items) {
+    return items.reduce((count, item, index, array) => {
+      let newCount = count;
+      if (
+        item.type !== "text" &&
+        (!array[index - 1] || array[index - 1].type !== "text")
+      ) {
+        newCount += 1;
+      }
+      newCount += 1;
+      // add at end
+      if (index === array.length - 1 && item.type !== "text") {
+        newCount += 1;
+      }
+      return newCount;
+    }, 0);
+  }
+
+  static getLengthWithoutSpacer(items) {
+    return items.reduce(
+      (count, item) =>
+        item.type === "text" && item.text === "" ? count : count + 1,
+      0,
     );
   }
 
@@ -264,16 +307,22 @@ class ActionsEditable extends Component {
       this.insertItem(item, items.length);
       return;
     }
-    if (position < items.length) {
+    if (position > items.length) {
+      this.insertItem(item, items.length);
+    }
+
+    if (position <= items.length) {
       items.splice(position, 0, item);
-    } else {
-      items.push(item);
     }
     // console.log("items", items);
+    const itemsWithSpacer = ActionsEditable.insertItemsSpacer(items, position);
+    // console.log("itemswithspacer", itemsWithSpacer);
 
-    this.updateItemsAndContent(items);
-    // TODO compute new position with spacer
-    this.changeFocus(position);
+    // maintain coherent state
+    this.setState({ items: [].concat(itemsWithSpacer.items) });
+    this.updateItemsAndContent(itemsWithSpacer.items);
+
+    this.changeFocus(position + itemsWithSpacer.offset);
   }
 
   // public method

@@ -38,7 +38,7 @@ class ActionsItem extends Component {
     // const style = {}; /* padding: "16px" */
     let s = { ...style, color, height: "100%", padding: "0px 16px" };
     if (isNew) {
-      s = { ...style, minHeight: "40px", backgroundColor: "#b3b3b319"};
+      s = { ...style, minHeight: "40px", backgroundColor: "#b3b3b319" };
     }
     if (isCondition) {
       s = { ...style, height: "auto", padding: "16px" };
