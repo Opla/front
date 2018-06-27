@@ -109,10 +109,11 @@ exports[`components/actionsList can be rendered with array of actions typed as s
           chat_bubble_outline
         </i>
         <div
-          aria-label="Add an output response"
           className="contenteditable"
           id="ae_content"
+          onBlur={[Function]}
           onClick={[Function]}
+          onFocus={[Function]}
           onKeyDown={[Function]}
           onKeyPress={[Function]}
           onMouseUp={[Function]}
@@ -120,6 +121,8 @@ exports[`components/actionsList can be rendered with array of actions typed as s
           spellCheck={false}
           style={
             Object {
+              "alignItems": "center",
+              "display": "flex",
               "flex": 1,
             }
           }
@@ -182,10 +185,11 @@ exports[`components/actionsList can be rendered with array of actions typed as s
           chat_bubble_outline
         </i>
         <div
-          aria-label="Add an output response"
           className="contenteditable"
           id="ae_content"
+          onBlur={[Function]}
           onClick={[Function]}
+          onFocus={[Function]}
           onKeyDown={[Function]}
           onKeyPress={[Function]}
           onMouseUp={[Function]}
@@ -193,6 +197,8 @@ exports[`components/actionsList can be rendered with array of actions typed as s
           spellCheck={false}
           style={
             Object {
+              "alignItems": "center",
+              "display": "flex",
               "flex": 1,
             }
           }
@@ -255,10 +261,11 @@ exports[`components/actionsList can be rendered with array of actions typed as s
           chat_bubble_outline
         </i>
         <div
-          aria-label="Add an output response"
           className="contenteditable"
           id="ae_content"
+          onBlur={[Function]}
           onClick={[Function]}
+          onFocus={[Function]}
           onKeyDown={[Function]}
           onKeyPress={[Function]}
           onMouseUp={[Function]}
@@ -266,6 +273,8 @@ exports[`components/actionsList can be rendered with array of actions typed as s
           spellCheck={false}
           style={
             Object {
+              "alignItems": "center",
+              "display": "flex",
               "flex": 1,
             }
           }
@@ -328,10 +337,11 @@ exports[`components/actionsList can be rendered with array of actions typed as s
           chat_bubble_outline
         </i>
         <div
-          aria-label="Add an output response"
           className="contenteditable"
           id="ae_content"
+          onBlur={[Function]}
           onClick={[Function]}
+          onFocus={[Function]}
           onKeyDown={[Function]}
           onKeyPress={[Function]}
           onMouseUp={[Function]}
@@ -339,6 +349,8 @@ exports[`components/actionsList can be rendered with array of actions typed as s
           spellCheck={false}
           style={
             Object {
+              "alignItems": "center",
+              "display": "flex",
               "flex": 1,
             }
           }
@@ -401,10 +413,11 @@ exports[`components/actionsList can be rendered with array of actions typed as s
           chat_bubble_outline
         </i>
         <div
-          aria-label="Add an output response"
           className="contenteditable"
           id="ae_content"
+          onBlur={[Function]}
           onClick={[Function]}
+          onFocus={[Function]}
           onKeyDown={[Function]}
           onKeyPress={[Function]}
           onMouseUp={[Function]}
@@ -412,6 +425,8 @@ exports[`components/actionsList can be rendered with array of actions typed as s
           spellCheck={false}
           style={
             Object {
+              "alignItems": "center",
+              "display": "flex",
               "flex": 1,
             }
           }
@@ -474,10 +489,11 @@ exports[`components/actionsList can be rendered with array of actions typed as s
           chat_bubble_outline
         </i>
         <div
-          aria-label="Add an output response"
           className="contenteditable"
           id="ae_content"
+          onBlur={[Function]}
           onClick={[Function]}
+          onFocus={[Function]}
           onKeyDown={[Function]}
           onKeyPress={[Function]}
           onMouseUp={[Function]}
@@ -485,6 +501,8 @@ exports[`components/actionsList can be rendered with array of actions typed as s
           spellCheck={false}
           style={
             Object {
+              "alignItems": "center",
+              "display": "flex",
               "flex": 1,
             }
           }
@@ -547,10 +565,11 @@ exports[`components/actionsList can be rendered with array of actions typed as s
           chat_bubble_outline
         </i>
         <div
-          aria-label="Add an output response"
           className="contenteditable"
           id="ae_content"
+          onBlur={[Function]}
           onClick={[Function]}
+          onFocus={[Function]}
           onKeyDown={[Function]}
           onKeyPress={[Function]}
           onMouseUp={[Function]}
@@ -558,6 +577,8 @@ exports[`components/actionsList can be rendered with array of actions typed as s
           spellCheck={false}
           style={
             Object {
+              "alignItems": "center",
+              "display": "flex",
               "flex": 1,
             }
           }
@@ -620,10 +641,11 @@ exports[`components/actionsList can be rendered with array of actions typed as s
         chat_bubble_outline
       </i>
       <div
-        aria-label="Add an output response"
         className="contenteditable"
         id="ae_content"
+        onBlur={[Function]}
         onClick={[Function]}
+        onFocus={[Function]}
         onKeyDown={[Function]}
         onKeyPress={[Function]}
         onMouseUp={[Function]}
@@ -631,7 +653,10 @@ exports[`components/actionsList can be rendered with array of actions typed as s
         spellCheck={false}
         style={
           Object {
+            "alignItems": "center",
+            "display": "flex",
             "flex": 1,
+            "minHeight": "40px",
           }
         }
         tabIndex={0}
@@ -645,6 +670,16 @@ exports[`components/actionsList can be rendered with array of actions typed as s
             }
           }
         >
+          <p
+            className="ae_placeholder"
+            style={
+              Object {
+                "color": "grey",
+              }
+            }
+          >
+            Add an output response
+          </p>
           <span
             className={undefined}
             data="text"
@@ -799,10 +834,11 @@ exports[`components/actionsList can be rendered with array of actions typed as s
           chat_bubble_outline
         </i>
         <div
-          aria-label="Add an output response"
           className="contenteditable"
           id="ae_content"
+          onBlur={[Function]}
           onClick={[Function]}
+          onFocus={[Function]}
           onKeyDown={[Function]}
           onKeyPress={[Function]}
           onMouseUp={[Function]}
@@ -810,6 +846,8 @@ exports[`components/actionsList can be rendered with array of actions typed as s
           spellCheck={false}
           style={
             Object {
+              "alignItems": "center",
+              "display": "flex",
               "flex": 1,
             }
           }
@@ -873,10 +911,11 @@ exports[`components/actionsList can be rendered with array of actions typed as s
           chat_bubble_outline
         </i>
         <div
-          aria-label="Add an output response"
           className="contenteditable"
           id="ae_content"
+          onBlur={[Function]}
           onClick={[Function]}
+          onFocus={[Function]}
           onKeyDown={[Function]}
           onKeyPress={[Function]}
           onMouseUp={[Function]}
@@ -884,6 +923,8 @@ exports[`components/actionsList can be rendered with array of actions typed as s
           spellCheck={false}
           style={
             Object {
+              "alignItems": "center",
+              "display": "flex",
               "flex": 1,
             }
           }
@@ -947,10 +988,11 @@ exports[`components/actionsList can be rendered with array of actions typed as s
           chat_bubble_outline
         </i>
         <div
-          aria-label="Add an output response"
           className="contenteditable"
           id="ae_content"
+          onBlur={[Function]}
           onClick={[Function]}
+          onFocus={[Function]}
           onKeyDown={[Function]}
           onKeyPress={[Function]}
           onMouseUp={[Function]}
@@ -958,6 +1000,8 @@ exports[`components/actionsList can be rendered with array of actions typed as s
           spellCheck={false}
           style={
             Object {
+              "alignItems": "center",
+              "display": "flex",
               "flex": 1,
             }
           }
@@ -1021,10 +1065,11 @@ exports[`components/actionsList can be rendered with array of actions typed as s
           chat_bubble_outline
         </i>
         <div
-          aria-label="Add an output response"
           className="contenteditable"
           id="ae_content"
+          onBlur={[Function]}
           onClick={[Function]}
+          onFocus={[Function]}
           onKeyDown={[Function]}
           onKeyPress={[Function]}
           onMouseUp={[Function]}
@@ -1032,6 +1077,8 @@ exports[`components/actionsList can be rendered with array of actions typed as s
           spellCheck={false}
           style={
             Object {
+              "alignItems": "center",
+              "display": "flex",
               "flex": 1,
             }
           }
@@ -1095,10 +1142,11 @@ exports[`components/actionsList can be rendered with array of actions typed as s
           chat_bubble_outline
         </i>
         <div
-          aria-label="Add an output response"
           className="contenteditable"
           id="ae_content"
+          onBlur={[Function]}
           onClick={[Function]}
+          onFocus={[Function]}
           onKeyDown={[Function]}
           onKeyPress={[Function]}
           onMouseUp={[Function]}
@@ -1106,6 +1154,8 @@ exports[`components/actionsList can be rendered with array of actions typed as s
           spellCheck={false}
           style={
             Object {
+              "alignItems": "center",
+              "display": "flex",
               "flex": 1,
             }
           }
@@ -1169,10 +1219,11 @@ exports[`components/actionsList can be rendered with array of actions typed as s
           chat_bubble_outline
         </i>
         <div
-          aria-label="Add an output response"
           className="contenteditable"
           id="ae_content"
+          onBlur={[Function]}
           onClick={[Function]}
+          onFocus={[Function]}
           onKeyDown={[Function]}
           onKeyPress={[Function]}
           onMouseUp={[Function]}
@@ -1180,6 +1231,8 @@ exports[`components/actionsList can be rendered with array of actions typed as s
           spellCheck={false}
           style={
             Object {
+              "alignItems": "center",
+              "display": "flex",
               "flex": 1,
             }
           }
@@ -1243,10 +1296,11 @@ exports[`components/actionsList can be rendered with array of actions typed as s
           chat_bubble_outline
         </i>
         <div
-          aria-label="Add an output response"
           className="contenteditable"
           id="ae_content"
+          onBlur={[Function]}
           onClick={[Function]}
+          onFocus={[Function]}
           onKeyDown={[Function]}
           onKeyPress={[Function]}
           onMouseUp={[Function]}
@@ -1254,6 +1308,8 @@ exports[`components/actionsList can be rendered with array of actions typed as s
           spellCheck={false}
           style={
             Object {
+              "alignItems": "center",
+              "display": "flex",
               "flex": 1,
             }
           }
@@ -1317,10 +1373,11 @@ exports[`components/actionsList can be rendered with array of actions typed as s
         chat_bubble_outline
       </i>
       <div
-        aria-label="Add an output response"
         className="contenteditable"
         id="ae_content"
+        onBlur={[Function]}
         onClick={[Function]}
+        onFocus={[Function]}
         onKeyDown={[Function]}
         onKeyPress={[Function]}
         onMouseUp={[Function]}
@@ -1328,7 +1385,10 @@ exports[`components/actionsList can be rendered with array of actions typed as s
         spellCheck={false}
         style={
           Object {
+            "alignItems": "center",
+            "display": "flex",
             "flex": 1,
+            "minHeight": "40px",
           }
         }
         tabIndex={0}
@@ -1342,6 +1402,16 @@ exports[`components/actionsList can be rendered with array of actions typed as s
             }
           }
         >
+          <p
+            className="ae_placeholder"
+            style={
+              Object {
+                "color": "grey",
+              }
+            }
+          >
+            Add an output response
+          </p>
           <span
             className={undefined}
             data="text"
@@ -1489,10 +1559,11 @@ exports[`components/actionsList can have an unique id 1`] = `
         chat_bubble_outline
       </i>
       <div
-        aria-label="Add an output response"
         className="contenteditable"
         id="ae_content"
+        onBlur={[Function]}
         onClick={[Function]}
+        onFocus={[Function]}
         onKeyDown={[Function]}
         onKeyPress={[Function]}
         onMouseUp={[Function]}
@@ -1500,7 +1571,10 @@ exports[`components/actionsList can have an unique id 1`] = `
         spellCheck={false}
         style={
           Object {
+            "alignItems": "center",
+            "display": "flex",
             "flex": 1,
+            "minHeight": "40px",
           }
         }
         tabIndex={0}
@@ -1514,6 +1588,16 @@ exports[`components/actionsList can have an unique id 1`] = `
             }
           }
         >
+          <p
+            className="ae_placeholder"
+            style={
+              Object {
+                "color": "grey",
+              }
+            }
+          >
+            Add an output response
+          </p>
           <span
             className={undefined}
             data="text"
@@ -1661,10 +1745,11 @@ exports[`components/actionsList can have different behavior on action 1`] = `
         chat_bubble_outline
       </i>
       <div
-        aria-label="Add an output response"
         className="contenteditable"
         id="ae_content"
+        onBlur={[Function]}
         onClick={[Function]}
+        onFocus={[Function]}
         onKeyDown={[Function]}
         onKeyPress={[Function]}
         onMouseUp={[Function]}
@@ -1672,7 +1757,10 @@ exports[`components/actionsList can have different behavior on action 1`] = `
         spellCheck={false}
         style={
           Object {
+            "alignItems": "center",
+            "display": "flex",
             "flex": 1,
+            "minHeight": "40px",
           }
         }
         tabIndex={0}
@@ -1686,6 +1774,16 @@ exports[`components/actionsList can have different behavior on action 1`] = `
             }
           }
         >
+          <p
+            className="ae_placeholder"
+            style={
+              Object {
+                "color": "grey",
+              }
+            }
+          >
+            Add an output response
+          </p>
           <span
             className={undefined}
             data="text"
@@ -1833,10 +1931,11 @@ exports[`components/actionsList can have different behavior on drop 1`] = `
         chat_bubble_outline
       </i>
       <div
-        aria-label="Add an output response"
         className="contenteditable"
         id="ae_content"
+        onBlur={[Function]}
         onClick={[Function]}
+        onFocus={[Function]}
         onKeyDown={[Function]}
         onKeyPress={[Function]}
         onMouseUp={[Function]}
@@ -1844,7 +1943,10 @@ exports[`components/actionsList can have different behavior on drop 1`] = `
         spellCheck={false}
         style={
           Object {
+            "alignItems": "center",
+            "display": "flex",
             "flex": 1,
+            "minHeight": "40px",
           }
         }
         tabIndex={0}
@@ -1858,6 +1960,16 @@ exports[`components/actionsList can have different behavior on drop 1`] = `
             }
           }
         >
+          <p
+            className="ae_placeholder"
+            style={
+              Object {
+                "color": "grey",
+              }
+            }
+          >
+            Add an output response
+          </p>
           <span
             className={undefined}
             data="text"
@@ -2005,10 +2117,11 @@ exports[`components/actionsList can have different behavior on edit 1`] = `
         chat_bubble_outline
       </i>
       <div
-        aria-label="Add an output response"
         className="contenteditable"
         id="ae_content"
+        onBlur={[Function]}
         onClick={[Function]}
+        onFocus={[Function]}
         onKeyDown={[Function]}
         onKeyPress={[Function]}
         onMouseUp={[Function]}
@@ -2016,7 +2129,10 @@ exports[`components/actionsList can have different behavior on edit 1`] = `
         spellCheck={false}
         style={
           Object {
+            "alignItems": "center",
+            "display": "flex",
             "flex": 1,
+            "minHeight": "40px",
           }
         }
         tabIndex={0}
@@ -2030,6 +2146,16 @@ exports[`components/actionsList can have different behavior on edit 1`] = `
             }
           }
         >
+          <p
+            className="ae_placeholder"
+            style={
+              Object {
+                "color": "grey",
+              }
+            }
+          >
+            Add an output response
+          </p>
           <span
             className={undefined}
             data="text"
@@ -2177,10 +2303,11 @@ exports[`components/actionsList can have different behavior on select 1`] = `
         chat_bubble_outline
       </i>
       <div
-        aria-label="Add an output response"
         className="contenteditable"
         id="ae_content"
+        onBlur={[Function]}
         onClick={[Function]}
+        onFocus={[Function]}
         onKeyDown={[Function]}
         onKeyPress={[Function]}
         onMouseUp={[Function]}
@@ -2188,7 +2315,10 @@ exports[`components/actionsList can have different behavior on select 1`] = `
         spellCheck={false}
         style={
           Object {
+            "alignItems": "center",
+            "display": "flex",
             "flex": 1,
+            "minHeight": "40px",
           }
         }
         tabIndex={0}
@@ -2202,6 +2332,16 @@ exports[`components/actionsList can have different behavior on select 1`] = `
             }
           }
         >
+          <p
+            className="ae_placeholder"
+            style={
+              Object {
+                "color": "grey",
+              }
+            }
+          >
+            Add an output response
+          </p>
           <span
             className={undefined}
             data="text"
@@ -2349,10 +2489,11 @@ exports[`components/actionsList renders correctly 1`] = `
         chat_bubble_outline
       </i>
       <div
-        aria-label="Add an output response"
         className="contenteditable"
         id="ae_content"
+        onBlur={[Function]}
         onClick={[Function]}
+        onFocus={[Function]}
         onKeyDown={[Function]}
         onKeyPress={[Function]}
         onMouseUp={[Function]}
@@ -2360,7 +2501,10 @@ exports[`components/actionsList renders correctly 1`] = `
         spellCheck={false}
         style={
           Object {
+            "alignItems": "center",
+            "display": "flex",
             "flex": 1,
+            "minHeight": "40px",
           }
         }
         tabIndex={0}
@@ -2374,6 +2518,16 @@ exports[`components/actionsList renders correctly 1`] = `
             }
           }
         >
+          <p
+            className="ae_placeholder"
+            style={
+              Object {
+                "color": "grey",
+              }
+            }
+          >
+            Add an output response
+          </p>
           <span
             className={undefined}
             data="text"

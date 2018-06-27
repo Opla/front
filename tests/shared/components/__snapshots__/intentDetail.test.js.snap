@@ -108,10 +108,11 @@ exports[`components/intentDetail can render intent with special characters corre
             format_quote
           </i>
           <div
-            aria-label="Add an input sentence"
             className="contenteditable"
             id="ae_content"
+            onBlur={[Function]}
             onClick={[Function]}
+            onFocus={[Function]}
             onKeyDown={[Function]}
             onKeyPress={[Function]}
             onMouseUp={[Function]}
@@ -119,7 +120,10 @@ exports[`components/intentDetail can render intent with special characters corre
             spellCheck={false}
             style={
               Object {
+                "alignItems": "center",
+                "display": "flex",
                 "flex": 1,
+                "minHeight": "40px",
               }
             }
             tabIndex={0}
@@ -133,6 +137,16 @@ exports[`components/intentDetail can render intent with special characters corre
                 }
               }
             >
+              <p
+                className="ae_placeholder"
+                style={
+                  Object {
+                    "color": "grey",
+                  }
+                }
+              >
+                Add an input sentence
+              </p>
               <span
                 className={undefined}
                 data="text"
@@ -277,10 +291,11 @@ exports[`components/intentDetail can render intent with special characters corre
             chat_bubble_outline
           </i>
           <div
-            aria-label="Add an output response"
             className="contenteditable"
             id="ae_content"
+            onBlur={[Function]}
             onClick={[Function]}
+            onFocus={[Function]}
             onKeyDown={[Function]}
             onKeyPress={[Function]}
             onMouseUp={[Function]}
@@ -288,7 +303,10 @@ exports[`components/intentDetail can render intent with special characters corre
             spellCheck={false}
             style={
               Object {
+                "alignItems": "center",
+                "display": "flex",
                 "flex": 1,
+                "minHeight": "40px",
               }
             }
             tabIndex={0}
@@ -302,6 +320,16 @@ exports[`components/intentDetail can render intent with special characters corre
                 }
               }
             >
+              <p
+                className="ae_placeholder"
+                style={
+                  Object {
+                    "color": "grey",
+                  }
+                }
+              >
+                Add an output response
+              </p>
               <span
                 className={undefined}
                 data="text"
@@ -602,10 +630,11 @@ exports[`components/intentDetail renders correctly 1`] = `
             format_quote
           </i>
           <div
-            aria-label="Add an input sentence"
             className="contenteditable"
             id="ae_content"
+            onBlur={[Function]}
             onClick={[Function]}
+            onFocus={[Function]}
             onKeyDown={[Function]}
             onKeyPress={[Function]}
             onMouseUp={[Function]}
@@ -613,7 +642,10 @@ exports[`components/intentDetail renders correctly 1`] = `
             spellCheck={false}
             style={
               Object {
+                "alignItems": "center",
+                "display": "flex",
                 "flex": 1,
+                "minHeight": "40px",
               }
             }
             tabIndex={0}
@@ -627,6 +659,16 @@ exports[`components/intentDetail renders correctly 1`] = `
                 }
               }
             >
+              <p
+                className="ae_placeholder"
+                style={
+                  Object {
+                    "color": "grey",
+                  }
+                }
+              >
+                Add an input sentence
+              </p>
               <span
                 className={undefined}
                 data="text"
@@ -771,10 +813,11 @@ exports[`components/intentDetail renders correctly 1`] = `
             chat_bubble_outline
           </i>
           <div
-            aria-label="Add an output response"
             className="contenteditable"
             id="ae_content"
+            onBlur={[Function]}
             onClick={[Function]}
+            onFocus={[Function]}
             onKeyDown={[Function]}
             onKeyPress={[Function]}
             onMouseUp={[Function]}
@@ -782,7 +825,10 @@ exports[`components/intentDetail renders correctly 1`] = `
             spellCheck={false}
             style={
               Object {
+                "alignItems": "center",
+                "display": "flex",
                 "flex": 1,
+                "minHeight": "40px",
               }
             }
             tabIndex={0}
@@ -796,6 +842,16 @@ exports[`components/intentDetail renders correctly 1`] = `
                 }
               }
             >
+              <p
+                className="ae_placeholder"
+                style={
+                  Object {
+                    "color": "grey",
+                  }
+                }
+              >
+                Add an output response
+              </p>
               <span
                 className={undefined}
                 data="text"

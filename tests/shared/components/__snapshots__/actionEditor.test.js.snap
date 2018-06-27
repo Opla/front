@@ -160,10 +160,11 @@ exports[`components/actionEditor renders correctly 1`] = `
     </div>
   </div>
   <div
-    aria-label={null}
     className="contenteditable"
     id="ae_content"
+    onBlur={[Function]}
     onClick={[Function]}
+    onFocus={[Function]}
     onKeyDown={[Function]}
     onKeyPress={[Function]}
     onMouseUp={[Function]}
@@ -171,6 +172,8 @@ exports[`components/actionEditor renders correctly 1`] = `
     spellCheck={false}
     style={
       Object {
+        "alignItems": "center",
+        "display": "flex",
         "flex": 1,
       }
     }

@@ -122,6 +122,7 @@ class ActionsEditable extends Component {
       startSpan: null,
       endSpan: null,
       itemToFocus: null,
+      isFocused: false,
     };
     this.itemsElementRefs = [];
   }
@@ -230,7 +231,6 @@ class ActionsEditable extends Component {
   };
 
   handleContainerClick = (e) => {
-    // console.log("ActionsEditable div onClick");
     if (e && e.target && e.target.id === "ae_content") {
       // focus on last item or ae_start if items empty
       const itemsLength = this.state.items.length;
@@ -244,6 +244,10 @@ class ActionsEditable extends Component {
       }
       this.changeFocus(itemToFocus);
     }
+  };
+
+  handleFocus = (isFocused) => {
+    this.setState({ isFocused });
   };
 
   setCE = (e, editable = true, itemIndex = null) => {
@@ -461,16 +465,30 @@ class ActionsEditable extends Component {
         );
       }
     }
+    const contentStyle = {
+      flex: 1,
+      display: "flex",
+      alignItems: "center",
+    };
+    if (this.props.isNew) {
+      contentStyle.minHeight = "40px";
+    }
+
     return (
       <div
         id="ae_content"
-        style={{ flex: 1 }}
+        style={contentStyle}
         tabIndex={0}
         key="0"
         className="contenteditable"
-        aria-label={this.props.placeholder}
         spellCheck={false}
         onClick={this.handleContainerClick}
+        onFocus={() => {
+          this.handleFocus(true);
+        }}
+        onBlur={() => {
+          this.handleFocus(false);
+        }}
         onMouseUp={this.handleMouseUp}
         onTouchEnd={this.handleMouseUp}
         onKeyPress={this.handleKeyPress}
@@ -480,8 +498,18 @@ class ActionsEditable extends Component {
         }}
       >
         <span
-          style={{ display: "flex", flexWrap: "wrap", alignItems: "center" }}
+          style={{
+            display: "flex",
+            flexWrap: "wrap",
+            alignItems: "center",
+          }}
         >
+          {(this.props.content == null || this.props.content === "") &&
+          !this.state.isFocused ? (
+            <p className="ae_placeholder" style={{ color: "grey" }}>
+              {this.props.placeholder}
+            </p>
+          ) : null}
           {start}
           {list}
           {end}
