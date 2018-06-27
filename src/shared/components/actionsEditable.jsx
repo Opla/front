@@ -39,10 +39,81 @@ class ActionsEditable extends Component {
     return actionText; // .trim();
   }
 
+  /**
+   * return if refIndex defined
+   * {
+   *   items: Array of item
+   *   offset: Offset of refIndex move
+   * }
+   */
+  static insertItemsSpacer(items, refIndex) {
+    let offset = 0;
+    const itemsWithSpacer = items.reduce((newItems, item, index, array) => {
+      if (
+        item.type !== "text" &&
+        (!array[index - 1] || array[index - 1].type !== "text")
+      ) {
+        newItems.push({ text: "", type: "text" });
+        // increase offset if needed
+        if (refIndex !== undefined && index <= refIndex) {
+          offset += 1;
+        }
+      }
+      newItems.push({ ...item });
+      // add at end
+      if (index === array.length - 1 && item.type !== "text") {
+        newItems.push({ text: "", type: "text" });
+        // pushSpacer(newItems, index, refIndex, offset);
+      }
+      return newItems;
+    }, []);
+
+    return refIndex !== undefined
+      ? { items: itemsWithSpacer, offset }
+      : itemsWithSpacer;
+  }
+
+  static removeAllItemsSpacer(items) {
+    return items.reduce(
+      (newItems, item) =>
+        item.type === "text" && item.text === ""
+          ? newItems
+          : newItems.concat([item]),
+      [],
+    );
+  }
+
+  static getLengthWithSpacer(items) {
+    return items.reduce((count, item, index, array) => {
+      let newCount = count;
+      if (
+        item.type !== "text" &&
+        (!array[index - 1] || array[index - 1].type !== "text")
+      ) {
+        newCount += 1;
+      }
+      newCount += 1;
+      // add at end
+      if (index === array.length - 1 && item.type !== "text") {
+        newCount += 1;
+      }
+      return newCount;
+    }, 0);
+  }
+
+  static getLengthWithoutSpacer(items) {
+    return items.reduce(
+      (count, item) =>
+        item.type === "text" && item.text === "" ? count : count + 1,
+      0,
+    );
+  }
+
   constructor(props) {
     super(props);
     const { content, selectedItem, caretPosition } = this.props;
-    const items = ActionsTools.parse(content);
+    let items = ActionsTools.parse(content);
+    items = ActionsEditable.insertItemsSpacer(items);
     this.state = {
       content,
       items,
@@ -51,6 +122,7 @@ class ActionsEditable extends Component {
       startSpan: null,
       endSpan: null,
       itemToFocus: null,
+      isFocused: false,
     };
     this.itemsElementRefs = [];
   }
@@ -58,7 +130,8 @@ class ActionsEditable extends Component {
   componentWillReceiveProps(nextProps) {
     const { content, caretPosition } = nextProps;
     if (content !== this.state.content) {
-      const items = ActionsTools.parse(content);
+      let items = ActionsTools.parse(content);
+      items = ActionsEditable.insertItemsSpacer(items);
       this.setState({
         content,
         items,
@@ -145,7 +218,8 @@ class ActionsEditable extends Component {
     const selectedItem = -1;
     const caretPosition = 0;
     const content = "";
-    const items = ActionsTools.parse(content);
+    let items = ActionsTools.parse(content);
+    items = ActionsEditable.insertItemsSpacer(items);
     this.setState(() => ({
       selectedItem,
       caretPosition,
@@ -157,7 +231,6 @@ class ActionsEditable extends Component {
   };
 
   handleContainerClick = (e) => {
-    // console.log("ActionsEditable div onClick");
     if (e && e.target && e.target.id === "ae_content") {
       // focus on last item or ae_start if items empty
       const itemsLength = this.state.items.length;
@@ -171,6 +244,10 @@ class ActionsEditable extends Component {
       }
       this.changeFocus(itemToFocus);
     }
+  };
+
+  handleFocus = (isFocused) => {
+    this.setState({ isFocused });
   };
 
   setCE = (e, editable = true, itemIndex = null) => {
@@ -214,6 +291,7 @@ class ActionsEditable extends Component {
   // public method
   insertItem(item, position) {
     const { items } = this.state;
+    let indexToFocus = 0;
     // console.log("insert item: ", item, position);
     if (position == null) {
       const newIndex =
@@ -234,31 +312,74 @@ class ActionsEditable extends Component {
       this.insertItem(item, items.length);
       return;
     }
-    if (position < items.length) {
-      items.splice(position, 0, item);
-    } else {
-      items.push(item);
+    if (position > items.length) {
+      this.insertItem(item, items.length);
+    }
+
+    if (position <= items.length) {
+      indexToFocus = position;
+      if (
+        items[position] &&
+        items[position].type === "text" &&
+        item.type === "text"
+      ) {
+        items[position].text += item.text;
+      } else if (
+        items[position - 1] &&
+        items[position - 1].type === "text" &&
+        item.type === "text"
+      ) {
+        items[position - 1].text += item.text;
+        // change focus to previous position
+        indexToFocus = position - 1;
+      } else if (
+        items[position + 1] &&
+        items[position + 1].type === "text" &&
+        item.type === "text"
+      ) {
+        items[position + 1].text = item.text + items[position + 1];
+      } else {
+        items.splice(position, 0, item);
+      }
     }
     // console.log("items", items);
+    const itemsWithSpacer = ActionsEditable.insertItemsSpacer(items, position);
+    indexToFocus += itemsWithSpacer.offset;
+    // console.log("itemswithspacer", itemsWithSpacer);
 
-    this.updateItemsAndContent(items);
-    this.changeFocus(position);
+    // maintain coherent state
+    this.setState({ items: [].concat(itemsWithSpacer.items) });
+    this.updateItemsAndContent(itemsWithSpacer.items);
+
+    this.changeFocus(indexToFocus);
   }
 
   // public method
   deleteItem(position = this.state.selectedItem) {
     const { items } = this.state;
+    // if item is a text, clear it
+    if (items[position] && items[position].type === "text") {
+      this.handleEntityChange(position, undefined, "");
+      this.changeFocus(position);
+      return;
+    }
+
     // if focus on ae_end and last action is a text, remove text
     if (position === -2 && items[items.length - 1].type === "text") {
       // recursive call on last item position
       this.deleteItem(items.lenght - 1);
       return;
     }
-    // console.log("delete item ", deletePosition);
+
     if (position > -1 && position < items.length) {
+      const itemsRemovedCount = 1;
       items.splice(position, 1);
       this.updateItemsAndContent(items);
-      const itemToFocus = position > 0 ? position - 1 : position; // move focus to previous item
+      // move focus to previous item
+      const itemToFocus =
+        position - itemsRemovedCount >= 0
+          ? position - itemsRemovedCount
+          : position;
       this.changeFocus(itemToFocus);
     }
   }
@@ -276,7 +397,7 @@ class ActionsEditable extends Component {
     // create a start action if empty or first item is not a text
     if (isEditable && (len < 1 || (actions[0] && actions[0].type !== "text"))) {
       // if intent empty start action take all the space
-      const style = len < 1 ? { width: "100vw" } : {};
+      const style = len < 1 ? { flex: "1" } : {};
       start = (
         <ActionEditable
           actionId={"ae_start"}
@@ -344,15 +465,30 @@ class ActionsEditable extends Component {
         );
       }
     }
+    const contentStyle = {
+      flex: 1,
+      display: "flex",
+      alignItems: "center",
+    };
+    if (this.props.isNew) {
+      contentStyle.minHeight = "40px";
+    }
+
     return (
       <div
         id="ae_content"
+        style={contentStyle}
         tabIndex={0}
         key="0"
         className="contenteditable"
-        aria-label={this.props.placeholder}
         spellCheck={false}
         onClick={this.handleContainerClick}
+        onFocus={() => {
+          this.handleFocus(true);
+        }}
+        onBlur={() => {
+          this.handleFocus(false);
+        }}
         onMouseUp={this.handleMouseUp}
         onTouchEnd={this.handleMouseUp}
         onKeyPress={this.handleKeyPress}
@@ -361,7 +497,19 @@ class ActionsEditable extends Component {
           this.node = node;
         }}
       >
-        <span>
+        <span
+          style={{
+            display: "flex",
+            flexWrap: "wrap",
+            alignItems: "center",
+          }}
+        >
+          {(this.props.content == null || this.props.content === "") &&
+          !this.state.isFocused ? (
+            <p className="ae_placeholder" style={{ color: "grey" }}>
+              {this.props.placeholder}
+            </p>
+          ) : null}
           {start}
           {list}
           {end}

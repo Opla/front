@@ -26,6 +26,6 @@ describe("components/actionEditor", () => {
     ].join("");
 
     const wrapper = shallow(<ActionsEditable content={content} />);
-    expect(wrapper.state("items")).toHaveLength(2);
+    expect(wrapper.state("items")).toHaveLength(5);
   });
 });

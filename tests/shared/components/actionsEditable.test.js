@@ -12,7 +12,7 @@ describe("components/actionsEditable", () => {
   const defaultProps = {
     id: "action-editor-content",
     editable: true,
-    content: "* bons gestes composteur *",
+    content: "* foo *",
     onChange: () => {},
     onSelected: () => {},
     style: {
@@ -40,12 +40,13 @@ describe("components/actionsEditable", () => {
 
   it("renders correctly", () => {
     const wrapper = shallow(<ActionsEditable {...defaultProps} />);
-    expect(wrapper.state("items")).toHaveLength(3);
+    expect(wrapper.state("items")).toHaveLength(5);
     expect(wrapper.find("#ae_content")).toHaveLength(1);
-    testActionIdAndContent(wrapper, "ae_0", 1, "*");
-    testActionIdAndContent(wrapper, "ae_1", 1, " bons gestes composteur ");
-    testActionIdAndContent(wrapper, "ae_2", 1, "*");
-    testActionIdAndContent(wrapper, "ae_3", 0);
+    testActionIdAndContent(wrapper, "ae_1", 1, "*");
+    testActionIdAndContent(wrapper, "ae_2", 1, " foo ");
+    testActionIdAndContent(wrapper, "ae_3", 1, "*");
+    testActionIdAndContent(wrapper, "ae_4", 1, "");
+    testActionIdAndContent(wrapper, "ae_5", 0);
   });
 
   describe("build()", () => {
@@ -144,101 +145,297 @@ describe("components/actionsEditable", () => {
     });
   });
 
-  it("should insert an item", () => {
-    const wrapper = shallow(<ActionsEditable {...defaultProps} />);
-    expect(wrapper.state("items")).toHaveLength(3);
-    testActionIdAndContent(wrapper, "ae_0", 1, "*");
-    testActionIdAndContent(wrapper, "ae_1", 1, " bons gestes composteur ");
-    testActionIdAndContent(wrapper, "ae_2", 1, "*");
-    testActionIdAndContent(wrapper, "ae_3", 0);
+  describe("get items length", () => {
+    it("should get array size with spacers", () => {
+      expect(
+        ActionsEditable.getLengthWithSpacer([
+          { type: "any", text: "*" },
+          { type: "any", text: "*" },
+        ]),
+      ).toEqual(5);
+      expect(
+        ActionsEditable.getLengthWithSpacer([
+          { type: "any", text: "*" },
+          { type: "text", text: "hello" },
+          { type: "any", text: "*" },
+        ]),
+      ).toEqual(5);
+      expect(
+        ActionsEditable.getLengthWithSpacer([
+          { type: "any", text: "*" },
+          { type: "text", text: "hello" },
+          { type: "any", text: "*" },
+        ]),
+      ).toEqual(5);
 
-    wrapper.instance().insertItem({ text: "*", type: "any" }, 2);
-    wrapper.update();
-    expect(wrapper.state("items")).toHaveLength(4);
-    testActionIdAndContent(wrapper, "ae_0", 1, "*");
-    testActionIdAndContent(wrapper, "ae_1", 1, " bons gestes composteur ");
-    testActionIdAndContent(wrapper, "ae_2", 1, "*");
+      // with spacers already in place
+      expect(
+        ActionsEditable.getLengthWithSpacer([
+          { type: "text", text: "" },
+          { type: "any", text: "*" },
+          { type: "text", text: "hello" },
+          { type: "any", text: "*" },
+          { type: "text", text: "" },
+        ]),
+      ).toEqual(5);
+
+      // with spacers partialy in place
+      expect(
+        ActionsEditable.getLengthWithSpacer([
+          { type: "text", text: "" },
+          { type: "any", text: "*" },
+          { type: "text", text: "hello" },
+          { type: "any", text: "*" },
+        ]),
+      ).toEqual(5);
+    });
+
+    it("should get items size without spacer", () => {
+      expect(
+        ActionsEditable.getLengthWithoutSpacer([
+          { type: "text", text: "" },
+          { type: "any", text: "*" },
+          { type: "text", text: "hello" },
+          { type: "any", text: "*" },
+          { type: "text", text: "" },
+        ]),
+      ).toEqual(3);
+      expect(
+        ActionsEditable.getLengthWithoutSpacer([
+          { type: "text", text: "" },
+          { type: "any", text: "*" },
+          { type: "text", text: "hello" },
+        ]),
+      ).toEqual(2);
+      expect(
+        ActionsEditable.getLengthWithoutSpacer([
+          { type: "text", text: "" },
+          { type: "any", text: "*" },
+          { type: "text", text: "" },
+        ]),
+      ).toEqual(1);
+    });
+  });
+
+  describe("InsertItemsSpacer()", () => {
+    it("should insert text item arround non text items", () => {
+      const items = [{ type: "any", text: "*" }, { type: "any", text: "*" }];
+      const newItems = ActionsEditable.insertItemsSpacer(items);
+      expect(newItems).toHaveLength(5);
+      expect(newItems).toEqual([
+        { type: "text", text: "" },
+        { type: "any", text: "*" },
+        { type: "text", text: "" },
+        { type: "any", text: "*" },
+        { type: "text", text: "" },
+      ]);
+    });
+    it("should not insert text item arround text items", () => {
+      const items = [
+        { type: "text", text: "foo" },
+        { type: "undef", text: "undef" },
+        { type: "any", text: "*" },
+        { type: "text", text: "bar" },
+      ];
+      const newItems = ActionsEditable.insertItemsSpacer(items);
+      expect(newItems).toHaveLength(5);
+      expect(newItems).toEqual([
+        { type: "text", text: "foo" },
+        { type: "undef", text: "undef" },
+        { type: "text", text: "" },
+        { type: "any", text: "*" },
+        { type: "text", text: "bar" },
+      ]);
+    });
+  });
+
+  it("should insert an item", () => {
+    const onChangeSpy = jest.fn();
+    const wrapper = shallow(
+      <ActionsEditable {...defaultProps} onChange={onChangeSpy} />,
+    );
+    expect(wrapper.state("items")).toHaveLength(5);
+    testActionIdAndContent(wrapper, "ae_0", 1, "");
+    testActionIdAndContent(wrapper, "ae_1", 1, "*");
+    testActionIdAndContent(wrapper, "ae_2", 1, " foo ");
     testActionIdAndContent(wrapper, "ae_3", 1, "*");
-    testActionIdAndContent(wrapper, "ae_4", 0);
+    testActionIdAndContent(wrapper, "ae_4", 1, "");
+    testActionIdAndContent(wrapper, "ae_5", 0);
+
+    wrapper.instance().insertItem({ text: "*", type: "any" }, 1);
+    wrapper.update();
+    expect(wrapper.state("items")).toEqual([
+      { type: "text", text: "" },
+      { type: "any", text: "*" },
+      { type: "text", text: "" },
+      { type: "any", text: "*" },
+      { type: "text", text: " foo " },
+      { type: "any", text: "*" },
+      { type: "text", text: "" },
+    ]);
+    expect(onChangeSpy).toHaveBeenCalledWith("** foo *");
+    testActionIdAndContent(wrapper, "ae_0", 1, "");
+    testActionIdAndContent(wrapper, "ae_1", 1, "*");
+    testActionIdAndContent(wrapper, "ae_2", 1, "");
+    testActionIdAndContent(wrapper, "ae_3", 1, "*");
+    testActionIdAndContent(wrapper, "ae_4", 1, " foo ");
+    testActionIdAndContent(wrapper, "ae_5", 1, "*");
+    testActionIdAndContent(wrapper, "ae_6", 1, "");
+    testActionIdAndContent(wrapper, "ae_7", 0);
   });
 
   it("should request to move focus after item inserted", () => {
     const wrapper = shallow(<ActionsEditable {...defaultProps} />);
-    expect(wrapper.state("items")).toHaveLength(3);
+    expect(wrapper.state("items")).toHaveLength(5);
+    // result
+    // _*foo*_
+    // 01 2 34
 
     wrapper.instance().insertItem({ text: "*", type: "any" }, 2);
     wrapper.update();
-    expect(wrapper.state("items")).toHaveLength(4);
-    expect(wrapper.state("itemToFocus")).toEqual(2);
+    expect(wrapper.state("items")).toEqual([
+      { type: "text", text: "" },
+      { type: "any", text: "*" },
+      { type: "text", text: "" },
+      { type: "any", text: "*" },
+      { type: "text", text: " foo " },
+      { type: "any", text: "*" },
+      { type: "text", text: "" },
+    ]);
+    expect(wrapper.state("itemToFocus")).toEqual(3);
+    // result
+    // _*_*foo*_
+    // 0123 4 56
+    //    |
+
     wrapper.update();
+    wrapper.instance().insertItem({ text: "*", type: "any" }, 5);
+    wrapper.update();
+    expect(wrapper.state("itemToFocus")).toEqual(5);
+    // result
+    // _*_*foo*_*_
+    // 0123 4 5678
+    //        |
+
+    wrapper.update();
+    wrapper.instance().insertItem({ text: "*", type: "any" }, 8);
+    wrapper.update();
+    expect(wrapper.state("itemToFocus")).toEqual(9);
+    // result
+    // _*_*foo*_*_*_
+    // 0123 4 5678910
+    //            |
   });
 
   it("should insert an item at beginning", () => {
+    const onChangeSpy = jest.fn();
     const wrapper = shallow(
-      <ActionsEditable {...defaultProps} content="* bons gestes composteur " />,
+      <ActionsEditable
+        {...defaultProps}
+        content="* foo"
+        onChange={onChangeSpy}
+      />,
     );
 
-    expect(wrapper.state("items")).toHaveLength(2);
-    testActionIdAndContent(wrapper, "ae_0", 1, "*");
-    testActionIdAndContent(wrapper, "ae_1", 1, " bons gestes composteur ");
-    testActionIdAndContent(wrapper, "ae_2", 0);
+    expect(wrapper.state("items")).toHaveLength(3);
+    testActionIdAndContent(wrapper, "ae_0", 1, "");
+    testActionIdAndContent(wrapper, "ae_1", 1, "*");
+    testActionIdAndContent(wrapper, "ae_2", 1, " foo");
+    testActionIdAndContent(wrapper, "ae_3", 0);
 
-    wrapper.setState({ selectedItem: -1 });
+    wrapper.setState({ selectedItem: 0 });
     wrapper.instance().insertItem({ text: "*", type: "any" }, 0);
     wrapper.update();
-    expect(wrapper.state("items")).toHaveLength(3);
-    testActionIdAndContent(wrapper, "ae_0", 1, "*");
-    testActionIdAndContent(wrapper, "ae_1", 1, "*");
-    testActionIdAndContent(wrapper, "ae_2", 1, " bons gestes composteur ");
-    testActionIdAndContent(wrapper, "ae_3", 0);
+
+    expect(onChangeSpy).toHaveBeenCalledWith("** foo");
   });
 
   it("should insert an item at end", () => {
+    const onChangeSpy = jest.fn();
     const wrapper = shallow(
       <ActionsEditable
         {...defaultProps}
-        content="* bons gestes composteur *"
+        content="* foo *"
+        onChange={onChangeSpy}
       />,
     );
 
-    expect(wrapper.state("items")).toHaveLength(3);
-    testActionIdAndContent(wrapper, "ae_0", 1, "*");
-    testActionIdAndContent(wrapper, "ae_1", 1, " bons gestes composteur ");
-    testActionIdAndContent(wrapper, "ae_2", 1, "*");
-    testActionIdAndContent(wrapper, "ae_3", 0);
+    expect(wrapper.state("items")).toHaveLength(5);
+    testActionIdAndContent(wrapper, "ae_0", 1, "");
+    testActionIdAndContent(wrapper, "ae_1", 1, "*");
+    testActionIdAndContent(wrapper, "ae_2", 1, " foo ");
+    testActionIdAndContent(wrapper, "ae_3", 1, "*");
+    testActionIdAndContent(wrapper, "ae_4", 1, "");
+    testActionIdAndContent(wrapper, "ae_5", 0);
 
-    wrapper.setState({ selectedItem: -2 });
-    wrapper.instance().insertItem({ text: "foo", type: "text" });
+    wrapper.setState({ selectedItem: 4 });
+    wrapper.instance().insertItem({ text: "*", type: "any" });
     wrapper.update();
-    expect(wrapper.state("items")).toHaveLength(4);
-    testActionIdAndContent(wrapper, "ae_0", 1, "*");
-    testActionIdAndContent(wrapper, "ae_1", 1, " bons gestes composteur ");
-    testActionIdAndContent(wrapper, "ae_2", 1, "*");
-    testActionIdAndContent(wrapper, "ae_3", 1, "foo");
-    testActionIdAndContent(wrapper, "ae_4", 0);
+    expect(onChangeSpy).toHaveBeenCalledWith("* foo **");
+  });
+
+  it("should concat when insert a text item next to another", () => {
+    const onChangeSpy = jest.fn();
+    const wrapper = shallow(
+      <ActionsEditable
+        {...defaultProps}
+        content="* foo *"
+        onChange={onChangeSpy}
+      />,
+    );
+
+    expect(wrapper.state("items")).toHaveLength(5);
+    testActionIdAndContent(wrapper, "ae_0", 1, "");
+    testActionIdAndContent(wrapper, "ae_1", 1, "*");
+    testActionIdAndContent(wrapper, "ae_2", 1, " foo ");
+    testActionIdAndContent(wrapper, "ae_3", 1, "*");
+    testActionIdAndContent(wrapper, "ae_4", 1, "");
+    testActionIdAndContent(wrapper, "ae_5", 0);
+
+    wrapper.setState({ selectedItem: 1 });
+    wrapper.instance().insertItem({ text: "bar", type: "text" });
+    wrapper.update();
+    expect(wrapper.state("items")).toEqual([
+      { type: "text", text: "" },
+      { type: "any", text: "*" },
+      { type: "text", text: " foo bar" },
+      { type: "any", text: "*" },
+      { type: "text", text: "" },
+    ]);
+    expect(onChangeSpy).toHaveBeenCalledWith("* foo bar*");
+    testActionIdAndContent(wrapper, "ae_0", 1, "");
+    testActionIdAndContent(wrapper, "ae_1", 1, "*");
+    testActionIdAndContent(wrapper, "ae_2", 1, " foo bar");
+    testActionIdAndContent(wrapper, "ae_3", 1, "*");
+    testActionIdAndContent(wrapper, "ae_4", 1, "");
+    testActionIdAndContent(wrapper, "ae_5", 0);
+
+    wrapper.instance().insertItem({ text: "bar", type: "text" });
   });
 
   it("should delete an item", () => {
+    const onChangeSpy = jest.fn();
     const wrapper = shallow(
       <ActionsEditable
         {...defaultProps}
-        content="* bons gestes composteur **"
+        content="* foo **"
+        onChange={onChangeSpy}
       />,
     );
-    expect(wrapper.state("items")).toHaveLength(4);
-    testActionIdAndContent(wrapper, "ae_0", 1, "*");
-    testActionIdAndContent(wrapper, "ae_1", 1, " bons gestes composteur ");
-    testActionIdAndContent(wrapper, "ae_2", 1, "*");
+    expect(wrapper.state("items")).toHaveLength(7);
+    testActionIdAndContent(wrapper, "ae_0", 1, "");
+    testActionIdAndContent(wrapper, "ae_1", 1, "*");
+    testActionIdAndContent(wrapper, "ae_2", 1, " foo ");
     testActionIdAndContent(wrapper, "ae_3", 1, "*");
-    testActionIdAndContent(wrapper, "ae_4", 0);
+    testActionIdAndContent(wrapper, "ae_4", 1, "");
+    testActionIdAndContent(wrapper, "ae_5", 1, "*");
+    testActionIdAndContent(wrapper, "ae_6", 1, "");
+    testActionIdAndContent(wrapper, "ae_7", 0);
 
-    wrapper.instance().deleteItem(2);
+    wrapper.instance().deleteItem(5);
     wrapper.update();
-    expect(wrapper.state("items")).toHaveLength(3);
-    testActionIdAndContent(wrapper, "ae_0", 1, "*");
-    testActionIdAndContent(wrapper, "ae_1", 1, " bons gestes composteur ");
-    testActionIdAndContent(wrapper, "ae_2", 1, "*");
-    testActionIdAndContent(wrapper, "ae_3", 0);
+    expect(onChangeSpy).toHaveBeenCalled();
+    expect(onChangeSpy).toHaveBeenCalledWith("* foo *");
   });
 
   it("should clear state content on clear()", () => {

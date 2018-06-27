@@ -76,6 +76,16 @@ class ActionEditable extends Component {
     return nextProps.text !== this.ref.innerText;
   }
 
+  componentDidUpdate() {
+    const type = ActionEditable.sanitizeType(
+      Object.keys(types),
+      this.props.type,
+    );
+    if (type === "text" && this.props.text !== undefined && this.ref) {
+      this.ref.innerHTML = this.props.text;
+    }
+  }
+
   setCE = (e, editable = true) => {
     if (!e) return;
     if (editable) {

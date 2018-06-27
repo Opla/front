@@ -96,9 +96,6 @@ class IntentContainer extends Component {
     } else {
       actionValue = text;
     }
-    if (!actionValue || actionValue === "") {
-      return false;
-    }
     this.props.appSetIntentAction(
       this.actionContainer,
       actionType,

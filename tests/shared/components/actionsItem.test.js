@@ -33,9 +33,23 @@ describe("components/actionsItem", () => {
     );
 
     expect(wrapper.find("ListItemMeta")).toHaveLength(1);
+    expect(wrapper.find("ListItemMeta").prop("icon")).toEqual("delete");
 
     // hide trash icon when action is new
     wrapper.setProps({ isNew: true });
-    expect(wrapper.find("ListItemMeta")).toHaveLength(0);
+    expect(wrapper.find("ListItemMeta")).toHaveLength(1);
+    expect(wrapper.find("ListItemMeta").prop("icon")).toEqual(null);
+  });
+
+  it("render add button", () => {
+    const wrapper = shallow(
+      <ActionsItem containerName={defaultContainerName} isNew isCondition />,
+    );
+
+    expect(wrapper.find("ListItemMeta")).toHaveLength(1);
+    expect(wrapper.find("ListItemMeta").prop("icon")).toEqual(null);
+
+    expect(wrapper.find("Button")).toHaveLength(1);
+    expect(wrapper.find("Button").prop("children")).toEqual("ADD");
   });
 });
