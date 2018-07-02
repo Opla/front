@@ -266,6 +266,13 @@ entries:
     - opla-front-0.1.0-191b0ab91df2c0500cc8d564877822a76241a5f3.tgz
     version: 0.1.0-191b0ab91df2c0500cc8d564877822a76241a5f3
   - appVersion: 0.1.0
+    created: 2018-07-02T23:02:48.528549391Z
+    digest: 60e8eb4c253c4d31832c083fdb286abc9ec4d81c7e4df75ea4a3e3e6aaa0003b
+    name: opla-front
+    urls:
+    - opla-front-0.1.0-15a1a00f42ffd2b0773e4c5cd0d9e76560f8df81.tgz
+    version: 0.1.0-15a1a00f42ffd2b0773e4c5cd0d9e76560f8df81
+  - appVersion: 0.1.0
     created: 2018-06-29T15:23:42.278714132Z
     digest: 4c839ffae0cdbc029945becb502df5b18c1634920370735ed72600d468fe239b
     name: opla-front
@@ -299,4 +306,4 @@ entries:
     urls:
     - opla-front-3cfaae96411ab56a49016c7de3af21d0fb40afd6.tgz
     version: 3cfaae96411ab56a49016c7de3af21d0fb40afd6
-generated: 2018-07-02T15:27:26.147069479Z
+generated: 2018-07-02T23:02:48.528089836Z
