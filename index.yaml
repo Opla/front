@@ -2,7 +2,7 @@ apiVersion: v1
 entries:
   opla-front:
   - appVersion: 0.1.0
-    created: 2018-07-05T13:31:45.816728166Z
+    created: 2018-07-09T11:07:47.068461124Z
     digest: 1c9f601204f581a25b34b33b4ceb0c8091d1005e7b50fdcf94496e6f76ccd916
     name: opla-front
     urls:
@@ -404,4 +404,4 @@ entries:
     urls:
     - opla-front-3cfaae96411ab56a49016c7de3af21d0fb40afd6.tgz
     version: 3cfaae96411ab56a49016c7de3af21d0fb40afd6
-generated: 2018-07-09T11:06:58.936095351Z
+generated: 2018-07-09T11:07:47.068034764Z
