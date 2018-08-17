@@ -311,7 +311,7 @@ export const handlers = {
     const actions = intent[actionContainer];
     // WIP handle Condition type
     if (actions && actions.length > 0) {
-      if (typeof actions[0] === "string") {
+      if (actions[0] == null || typeof actions[0] === "string") {
         actions.splice(selectedAction, 1);
       } else if (actions[0].type === "condition") {
         const { children } = actions[0];
